@@ -15,10 +15,12 @@ const SignUpPage = () => {
             image: user.image,
             password: user.password
         })
+
         if (data) {
             alert('SignUp Successfull');
             console.log(data);
         }
+        
         if (error) {
             alert(error.message);
         }

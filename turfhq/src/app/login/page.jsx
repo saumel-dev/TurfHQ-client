@@ -20,8 +20,7 @@ const LoginPage = () => {
             alert(`Login Successfull`);
             redirect('/');
         }
-        if(error)
-        {
+        if (error) {
             alert(error.message);
         }
     }
