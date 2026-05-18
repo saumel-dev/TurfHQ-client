@@ -2,8 +2,8 @@
 import { Button, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
-import { authClient } from "../lib/auth-client";
 import { redirect } from "next/navigation";
+import { authClient } from "../lib/auth-client";
 
 const LoginPage = () => {
 
