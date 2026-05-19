@@ -10,7 +10,7 @@ const USP_Section = () => {
             <h1 className='text-4xl font-bold text-center'>Why Choose Turf<span className='text-green-500'>HQ</span>?</h1>
             <div className='flex flex-wrap mt-10 justify-center px-5 gap-5 md:justify-between'>
                 <div className='card w-70 h-55 border-t-3 border-green-200 shadow-xl'>
-                    <div className='flex flex-col justify-center items-center mt-5'>
+                    <div className='flex flex-col justify-center items-center mt-5 space-y-2'>
                         <div className='bg-green-100 p-2 rounded-full'>
                             <CgCalendarDates className=' text-4xl text-green-500'></CgCalendarDates>
                         </div>
@@ -19,7 +19,7 @@ const USP_Section = () => {
                     </div>
                 </div>
                 <div className='card w-70 h-55 border-t-3 border-sky-200 shadow-xl'>
-                    <div className='flex flex-col justify-center items-center mt-5'>
+                    <div className='flex flex-col justify-center items-center mt-5 space-y-2'>
                         <div className='bg-sky-100 p-2 rounded-full'>
                             <GrTrophy className=' text-4xl text-sky-500'></GrTrophy>
                         </div>
@@ -28,7 +28,7 @@ const USP_Section = () => {
                     </div>
                 </div>
                 <div className='card w-70 h-55 border-t-3 border-violet-200 shadow-xl'>
-                    <div className='flex flex-col justify-center items-center mt-5'>
+                    <div className='flex flex-col justify-center items-center mt-5 space-y-2'>
                         <div className='bg-violet-100 p-2 rounded-full'>
                             <FaClockRotateLeft className=' text-4xl text-violet-500'></FaClockRotateLeft>
                         </div>
