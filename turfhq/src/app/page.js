@@ -1,4 +1,5 @@
 import FeaturedCard from '@/Components/FeaturedCard';
+import Footer from '@/Components/Footer';
 import PopularFacilities from '@/Components/PopularFacilities';
 import Stats_section from '@/Components/Stats_section';
 import USP_Section from '@/Components/USP_Section';
@@ -27,6 +28,8 @@ const Home = () => {
       <USP_Section></USP_Section>
 
       <Stats_section> </Stats_section>
+
+      <Footer></Footer>
     </main>
   );
 };
