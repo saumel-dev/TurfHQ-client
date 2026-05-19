@@ -1,3 +1,6 @@
+import FeaturedCard from '@/Components/FeaturedCard';
+import PopularFacilities from '@/Components/PopularFacilities';
+import USP_Section from '@/Components/USP_Section';
 import Link from 'next/link';
 import React from 'react';
 
@@ -15,6 +18,12 @@ const Home = () => {
           <Link href={"/all-facilities"} className='transition-all ease-in-out scale-100 mt-5'><button className='text-white bg-green-600 px-3 py-1 rounded-full cursor-pointer font-semibold transition-all duration-300 ease-out hover:bg-green-500 hover:scale-105 hover:shadow-[0_0_20px_rgba(34,197,94,0.6)] active:scale-95'>Explore Facilities</button></Link>
         </div>
       </div>
+
+      <FeaturedCard></FeaturedCard>
+
+      <PopularFacilities></PopularFacilities>
+
+      <USP_Section></USP_Section>
     </main>
   );
 };
