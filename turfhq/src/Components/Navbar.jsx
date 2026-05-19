@@ -6,16 +6,12 @@ import { usePathname } from "next/navigation";
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const pathName = usePathname();
-    const classes = pathName === '/login' ? "bg-[#0d1e29]" :
-        pathName === "/signup" ? "bg-[#0d1e29]" : "bg-[#0d1e29]/60";
-    console.log(pathName);
     return (
-        <div className="">
-            <nav className={`absolute top-8 md:top-12 z-10 left-1/2 -translate-x-1/2 ${classes} border border-white/10 rounded-2xl md:rounded-full w-[90%] max-w-6xl transition-all duration-300`}>
+        <div>
+            <nav className="max-w-6xl mx-auto shadow-sm rounded-2xl">
                 <header className="flex py-2 items-center justify-between px-6">
                     <div className="flex items-center gap-4 justify-between w-full md:w-auto">
-                        <div className="font-bold text-white text-2xl">TurfHQ</div>
+                        <div className="font-bold text-2xl">Turf<span className="text-green-500">HQ</span></div>
                         <button
                             className="md:hidden"
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -23,7 +19,7 @@ const Navbar = () => {
                         >
                             <span className="sr-only">Menu</span>
                             <svg
-                                className="h-6 w-6 text-white"
+                                className="h-6 w-6"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
