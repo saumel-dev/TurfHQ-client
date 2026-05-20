@@ -1,10 +1,19 @@
 'use client'
 import { useState } from "react";
-import { Link, Button } from "@heroui/react";
 import NavLink from "./NavLink";
-import { usePathname } from "next/navigation";
-
+import { authClient } from "@/app/lib/auth-client";
+import { Avatar, Dropdown, Label } from "@heroui/react";
+import { MdOutlineLogout } from "react-icons/md";
+import { redirect } from "next/navigation";
 const Navbar = () => {
+
+    const { data: session } = authClient.useSession();
+    const user = session?.user;
+    const handleSignout = async () => {
+        await authClient.signOut();
+        redirect("/");
+    }
+
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     return (
         <div>
@@ -13,7 +22,7 @@ const Navbar = () => {
                     <div className="flex items-center gap-4 justify-between w-full md:w-auto">
                         <div className="font-bold text-2xl">Turf<span className="text-green-500">HQ</span></div>
                         <button
-                            className="md:hidden"
+                            className={`${user ? "hidden" : "block"} md:hidden`}
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
                             aria-label="Toggle menu"
                         >
@@ -50,11 +59,54 @@ const Navbar = () => {
                             <NavLink href={"/all-facilities"}>All Facilities</NavLink>
                         </li>
                     </ul>
-                    <div className="hidden md:block text-sm">
-                        <NavLink href={"/login"}>Login</NavLink>
-                    </div>
+                    {
+                        user ? <div><Dropdown>
+                            <Dropdown.Trigger className="rounded-full">
+                                <Avatar>
+                                    <Avatar.Image
+                                        alt={user.name}
+                                        src={user.image}
+                                    />
+                                    <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
+                                </Avatar>
+                            </Dropdown.Trigger>
+                            <Dropdown.Popover>
+                                <div className="px-3 pt-3 pb-1">
+                                    <div className="flex items-center gap-2">
+                                        <Avatar size="sm">
+                                            <Avatar.Image
+                                                alt={user.name}
+                                                src={user.image}
+                                            />
+                                            <Avatar.Fallback delayMs={600}>{user.image}</Avatar.Fallback>
+                                        </Avatar>
+                                        <div className="flex flex-col gap-0">
+                                            <p className="text-sm leading-5 font-medium">{user.name}</p>
+                                            <p className="text-xs leading-none text-muted">{user.email}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <Dropdown.Menu>
+                                    <Dropdown.Item id="home" textValue="home">
+                                        <NavLink href={"/"}>Home</NavLink>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item id="all-facilities" textValue="all-facilities">
+                                        <NavLink href={"/all-facilities"}>All Facilities</NavLink>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item id="logout" textValue="Logout" variant="danger">
+                                        <div className="flex w-full items-center justify-between gap-2">
+                                            <button onClick={handleSignout}><Label>Log Out</Label></button>
+                                            <MdOutlineLogout className="text-xl text-red-400"></MdOutlineLogout>
+                                        </div>
+                                    </Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown.Popover>
+                        </Dropdown></div> : <div className="hidden md:block text-sm">
+                            <NavLink href={"/login"}>Login</NavLink>
+                        </div>
+                    }
                 </header>
-                {isMenuOpen && (
+                {isMenuOpen && !user && (
                     <div className="border-t border-separator md:hidden">
                         <ul className="flex flex-col gap-2 p-4">
                             <li>

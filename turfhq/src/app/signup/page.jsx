@@ -2,6 +2,7 @@
 import { Button, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
 import { FcGoogle } from "react-icons/fc";
 import { authClient } from "../lib/auth-client";
+import { redirect } from "next/navigation";
 
 const SignUpPage = () => {
 
@@ -9,7 +10,7 @@ const SignUpPage = () => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const user = Object.fromEntries(formData.entries());
-        const { data, error } = authClient.signUp.email({
+        const { data, error } = await authClient.signUp.email({
             name: user.name,
             email: user.email,
             image: user.image,
@@ -18,9 +19,9 @@ const SignUpPage = () => {
 
         if (data) {
             alert('SignUp Successfull');
-            console.log(data);
+            redirect('/');
         }
-        
+
         if (error) {
             alert(error.message);
         }
