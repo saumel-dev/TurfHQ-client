@@ -39,7 +39,7 @@ const FeaturedCard = async () => {
                                 <p>{facility.available_slots.length} slots available</p>
                             </div>
                             <div className='flex justify-center'>
-                                <Link href={"/"}><button className='bg-green-500 px-3 py-2 rounded-full text-white font-bold cursor-pointer transition-all duration-300 ease-out hover:scale-105 active:scale-95'>Book Now</button> </Link>
+                                <Link href={`/all-facilities/${facility._id}`}><button className='bg-green-500 px-3 py-2 rounded-full text-white font-bold cursor-pointer transition-all duration-300 ease-out hover:scale-105 active:scale-95'>Book Now</button> </Link>
                             </div>
                         </div>
                     </div>)

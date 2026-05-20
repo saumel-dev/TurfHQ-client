@@ -17,8 +17,8 @@ const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     return (
         <div>
-            <nav className="max-w-6xl mx-auto shadow-sm rounded-2xl">
-                <header className="flex py-2 items-center justify-between px-6">
+            <nav className="mx-auto shadow-sm rounded-2xl">
+                <header className="flex py-2 items-center justify-between px-6 max-w-6xl mx-auto">
                     <div className="flex items-center gap-4 justify-between w-full md:w-auto">
                         <div className="font-bold text-2xl">Turf<span className="text-green-500">HQ</span></div>
                         <button
@@ -58,6 +58,19 @@ const Navbar = () => {
                         <li>
                             <NavLink href={"/all-facilities"}>All Facilities</NavLink>
                         </li>
+                        {
+                            user ? <>
+                                <li>
+                                    <NavLink href={"/my-bookings"}>My Bookings</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink href={"/add-facilities"}>Add Facilities</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink href={"/manage-facilities"}>Manage Facilities</NavLink>
+                                </li>
+                            </> : ""
+                        }
                     </ul>
                     {
                         user ? <div><Dropdown>
@@ -90,8 +103,17 @@ const Navbar = () => {
                                     <Dropdown.Item id="home" textValue="home">
                                         <NavLink href={"/"}>Home</NavLink>
                                     </Dropdown.Item>
-                                    <Dropdown.Item id="all-facilities" textValue="all-facilities">
+                                    <Dropdown.Item id="all-facilities" textValue="All-facilities">
                                         <NavLink href={"/all-facilities"}>All Facilities</NavLink>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item id="my-bookings" textValue="My-bookings">
+                                        <NavLink href={"/my-bookings"}>My Bookings</NavLink>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item id="add-facilities" textValue="Add-facilities">
+                                        <NavLink href={"/add-facilities"}>Add Facilities</NavLink>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item id="manage-facilities" textValue="Manage-facilities">
+                                        <NavLink href={"/manage-facilities"}>Manage Facilities</NavLink>
                                     </Dropdown.Item>
                                     <Dropdown.Item id="logout" textValue="Logout" variant="danger">
                                         <div className="flex w-full items-center justify-between gap-2">

@@ -6,7 +6,7 @@ const NavLink = ({ href, children, className = "" }) => {
     const pathName = usePathname();
     const isActive = href === "/" ? pathName === "/" : pathName.startsWith(href);
     return (
-        <Link className={`no-underline transition-all duration-200 ${isActive ? "text-green-500 font-bold scale-105" : 'text-gray-400 hover:text-green-500'}`} href={href}>
+        <Link className={`no-underline transition-all duration-200 ${isActive ? "text-green-500 font-bold scale-105" : 'text-gray-400 font-semibold hover:text-green-500'}`} href={href}>
             {children}
         </Link>
     );
