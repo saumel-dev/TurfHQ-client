@@ -8,7 +8,7 @@ const Stats_section = () => {
     return (
         <div className='max-w-6xl mx-auto my-20'>
             <h1 className='text-4xl font-bold text-center'>Our Growing <span className='text-green-500'>Community</span></h1>
-            <div className='flex flex-wrap mt-10 justify-center px-5 gap-5 md:justify-between'>
+            <div className='flex flex-wrap mt-11 justify-center px-5 gap-5 md:justify-between'>
                 <div className='card w-60 h-45 flex justify-center items-center bg-slate-100'>
                     <h1 className='text-4xl font-bold'>11+</h1>
                     <p className='text-center'>Sports Facilities</p>
