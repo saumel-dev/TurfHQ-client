@@ -20,8 +20,7 @@ const InputBooking = ({ facility }) => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        const { data: tokenData } = await authClient.getSession();
-        const token = tokenData?.session?.token;
+        const { data: tokenData } = await authClient.token();
         const data = {
             facility_id: _id,
             facility_type: facility_type,
@@ -38,7 +37,7 @@ const InputBooking = ({ facility }) => {
             method: "POST",
             headers: {
                 "content-type": "application/json",
-                "authorization": `Bearer ${token}`
+                "authorization": `Bearer ${tokenData?.token}`
             },
             body: JSON.stringify(data)
         })
@@ -49,8 +48,6 @@ const InputBooking = ({ facility }) => {
         else {
             alert(`something is wrong`);
         }
-        console.log("token: ", token);
-        console.log("data: ", data);
     }
     const handleReset = () => {
         setDuration(1);

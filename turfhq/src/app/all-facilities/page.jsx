@@ -1,3 +1,4 @@
+import SearchBar from '@/Components/SearchBar';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -14,6 +15,7 @@ const AllFacilitiesPage = async () => {
             <div className='mt-10'>
                 <h1 className='text-3xl font-bold'>All Facilities</h1>
                 <p className='text-gray-400 mt-2'>Explore All Facilities of TurfHQ</p>
+                <SearchBar></SearchBar>
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 justify-items-center'>
                     {
                         facilities.map(facility => <div key={facility._id} className='card w-96 transition-all duration-300 ease-out hover:shadow-[0_0_20px_rgba(34,197,94,0.6)] active:scale-95'>

@@ -28,8 +28,7 @@ const Home = () => {
       <USP_Section></USP_Section>
 
       <Stats_section> </Stats_section>
-
-      <Footer></Footer>
+      
     </main>
   );
 };

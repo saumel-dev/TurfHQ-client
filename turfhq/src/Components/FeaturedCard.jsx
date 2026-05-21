@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
 import { CiLocationOn } from 'react-icons/ci';
 import { GoPerson } from 'react-icons/go';
 import { MdTimelapse } from 'react-icons/md';

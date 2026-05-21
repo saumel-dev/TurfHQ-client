@@ -4,14 +4,14 @@ import NavLink from "./NavLink";
 import { authClient } from "@/app/lib/auth-client";
 import { Avatar, Dropdown, Label } from "@heroui/react";
 import { MdOutlineLogout } from "react-icons/md";
-import { redirect } from "next/navigation";
+import { useRouter } from 'next/navigation';
 const Navbar = () => {
-
+    const router = useRouter();
     const { data: session } = authClient.useSession();
     const user = session?.user;
     const handleSignout = async () => {
         await authClient.signOut();
-        redirect("/");
+        router.push('/');
     }
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -115,9 +115,9 @@ const Navbar = () => {
                                     <Dropdown.Item id="manage-facilities" textValue="Manage-facilities">
                                         <NavLink href={"/manage-facilities"}>Manage Facilities</NavLink>
                                     </Dropdown.Item>
-                                    <Dropdown.Item id="logout" textValue="Logout" variant="danger">
+                                    <Dropdown.Item onClick={handleSignout} id="logout" textValue="Logout" variant="danger">
                                         <div className="flex w-full items-center justify-between gap-2">
-                                            <button onClick={handleSignout}><Label>Log Out</Label></button>
+                                            <Label>Log Out</Label>
                                             <MdOutlineLogout className="text-xl text-red-400"></MdOutlineLogout>
                                         </div>
                                     </Dropdown.Item>

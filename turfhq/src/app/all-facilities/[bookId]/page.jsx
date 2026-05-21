@@ -20,8 +20,8 @@ const BookFacilitiesPage = async ({ params }) => {
                 <div className='grid grid-cols-1 md:grid-cols-2 justify-items-center gap-5'>
                     <div className='w-full flex flex-col justify-center items-center gap-2'>
                         <Image
-                            alt={name}
-                            src={image}
+                            alt={facility.name}
+                            src={facility.image}
                             width={500}
                             height={400}
                             className='rounded-2xl'

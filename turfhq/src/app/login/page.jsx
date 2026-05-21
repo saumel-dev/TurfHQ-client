@@ -28,7 +28,7 @@ const LoginPage = () => {
     return (
         <div className="container mx-auto">
             <div className="flex justify-center items-center min-h-screen">
-                <Form className="flex w-96 flex-col gap-4 bg-slate-200 p-10 rounded-2xl" onSubmit={onSubmit}>
+                <Form className="flex w-96 flex-col gap-4 dark:bg-zinc-800 dark:border-zinc-700 p-10 rounded-2xl" onSubmit={onSubmit}>
 
                     <TextField
                         isRequired
