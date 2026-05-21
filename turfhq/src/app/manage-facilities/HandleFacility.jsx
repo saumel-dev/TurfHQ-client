@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { authClient } from "../lib/auth-client";
 import { useState } from "react";
-import { Button, Input, Label, Modal, TextField } from "@heroui/react";
+import { AlertDialog, Button, Input, Label, Modal, TextField } from "@heroui/react";
 import { redirect, useRouter } from "next/navigation";
 
 const HandleFacility = ({ facilities: initialFacilities }) => {
@@ -24,9 +24,6 @@ const HandleFacility = ({ facilities: initialFacilities }) => {
     };
 
     const handleDelete = async (facilityId) => {
-        const confirmed = confirm("Are you sure you want to delete this facility?");
-        if (!confirmed) return;
-
         const { data: tokenData } = await authClient.token();
         const res = await fetch(`http://localhost:5000/facilities/${facilityId}`, {
             method: 'DELETE',
@@ -207,13 +204,34 @@ const HandleFacility = ({ facilities: initialFacilities }) => {
                                     </Modal.Container>
                                 </Modal.Backdrop>
                             </Modal>
-
-                            <button
-                                onClick={() => handleDelete(facility._id)}
-                                className="text-sm font-semibold text-red-600 bg-red-100 px-3 py-1 rounded-full cursor-pointer"
-                            >
-                                Delete
-                            </button>
+                            <AlertDialog>
+                                <Button variant="danger">Delete</Button>
+                                <AlertDialog.Backdrop>
+                                    <AlertDialog.Container>
+                                        <AlertDialog.Dialog className="sm:max-w-[400px]">
+                                            <AlertDialog.CloseTrigger />
+                                            <AlertDialog.Header>
+                                                <AlertDialog.Icon status="danger" />
+                                                <AlertDialog.Heading>Delete this facility permanently?</AlertDialog.Heading>
+                                            </AlertDialog.Header>
+                                            <AlertDialog.Body>
+                                                <p>
+                                                    This will permanently delete this facility and all of its
+                                                    data. This action cannot be undone.
+                                                </p>
+                                            </AlertDialog.Body>
+                                            <AlertDialog.Footer>
+                                                <Button slot="close" variant="tertiary">
+                                                    Cancel
+                                                </Button>
+                                                <Button onClick={() => handleDelete(facility._id)} slot="close" variant="danger">
+                                                    Delete
+                                                </Button>
+                                            </AlertDialog.Footer>
+                                        </AlertDialog.Dialog>
+                                    </AlertDialog.Container>
+                                </AlertDialog.Backdrop>
+                            </AlertDialog>
                         </div>
                     </div>
                 ))}

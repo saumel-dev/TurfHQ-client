@@ -5,11 +5,12 @@ export async function proxy(request) {
     const session = await auth.api.getSession({
         headers: await headers()
     })
-    if(!session) {
+    if (!session) {
         return NextResponse.redirect(new URL('/login', request.url))
     }
+    return NextResponse.next()
 }
- 
+
 export const config = {
-  matcher: ['/my-bookings', '/add-facilities', '/manage-facilities'],
+    matcher: ['/my-bookings', '/add-facilities', '/manage-facilities', '/add-facilities/:id*', '/all-facilities/:id'],
 }

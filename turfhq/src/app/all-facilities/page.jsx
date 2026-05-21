@@ -6,7 +6,8 @@ import { CiLocationOn } from 'react-icons/ci';
 import { GoPerson } from 'react-icons/go';
 import { MdTimelapse } from 'react-icons/md';
 
-const AllFacilitiesPage = async ({ searchParams }) => {
+const AllFacilitiesPage = async (props) => {
+    const searchParams = await props.searchParams;
     const searchTerm = searchParams?.searchTerm || "";
     const type = searchParams?.type || "";
     const res = await fetch(`http://localhost:5000/facilities?searchTerm=${searchTerm}&type=${type}`, {

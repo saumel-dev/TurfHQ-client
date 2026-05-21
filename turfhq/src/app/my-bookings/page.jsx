@@ -2,7 +2,7 @@
 import { authClient } from "@/app/lib/auth-client";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { AlertDialog, Button } from "@heroui/react";
 import { useEffect, useState } from "react";
 
 const MyBookingsPage = () => {
@@ -20,7 +20,6 @@ const MyBookingsPage = () => {
         });
         if (res.ok) {
             alert("Deleted Successfully");
-            // redirect('/my-bookings')
             setBookings(prev => prev.filter(booking => booking._id !== bookingId));
         }
     };
@@ -97,11 +96,39 @@ const MyBookingsPage = () => {
                                 <span className="uppercase text-[11px] font-semibold bg-yellow-200 px-2 py-1 rounded-full">
                                     {booking.status}
                                 </span>
-                                <button
-                                    onClick={() => handleCancel(booking._id)}
+                                <AlertDialog>
+                                    <Button variant="danger">Delete</Button>
+                                    <AlertDialog.Backdrop>
+                                        <AlertDialog.Container>
+                                            <AlertDialog.Dialog className="sm:max-w-[400px]">
+                                                <AlertDialog.CloseTrigger />
+                                                <AlertDialog.Header>
+                                                    <AlertDialog.Icon status="danger" />
+                                                    <AlertDialog.Heading>Delete this booking permanently?</AlertDialog.Heading>
+                                                </AlertDialog.Header>
+                                                <AlertDialog.Body>
+                                                    <p>
+                                                        This will permanently delete this booking and all of its
+                                                        data. This action cannot be undone.
+                                                    </p>
+                                                </AlertDialog.Body>
+                                                <AlertDialog.Footer>
+                                                    <Button slot="close" variant="tertiary">
+                                                        Cancel
+                                                    </Button>
+                                                    <Button onClick={() => handleCancel(booking._id)} slot="close" variant="danger">
+                                                        Delete
+                                                    </Button>
+                                                </AlertDialog.Footer>
+                                            </AlertDialog.Dialog>
+                                        </AlertDialog.Container>
+                                    </AlertDialog.Backdrop>
+                                </AlertDialog>
+                                {/* <button
+                                    
                                     className="text-sm font-semibold text-red-600 bg-red-100 px-2 rounded-full cursor-pointer"
                                 > Cancel
-                                </button>
+                                </button> */}
                             </div>
                         </div>
                     ))}
