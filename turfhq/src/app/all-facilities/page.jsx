@@ -6,8 +6,12 @@ import { CiLocationOn } from 'react-icons/ci';
 import { GoPerson } from 'react-icons/go';
 import { MdTimelapse } from 'react-icons/md';
 
-const AllFacilitiesPage = async () => {
-    const res = await fetch('http://localhost:5000/facilities');
+const AllFacilitiesPage = async ({ searchParams }) => {
+    const searchTerm = searchParams?.searchTerm || "";
+    const type = searchParams?.type || "";
+    const res = await fetch(`http://localhost:5000/facilities?searchTerm=${searchTerm}&type=${type}`, {
+        cache: "no-store"
+    });
     const facilities = await res.json();
 
     return (
