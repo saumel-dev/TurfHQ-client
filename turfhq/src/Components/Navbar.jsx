@@ -7,6 +7,7 @@ import { MdOutlineLogout } from "react-icons/md";
 import { useRouter } from 'next/navigation';
 import { ThemeSwitch } from "./ThemeSwitch";
 import Link from "next/link";
+import { motion } from "motion/react"
 const Navbar = () => {
     const router = useRouter();
     const { data: session } = authClient.useSession();
@@ -19,7 +20,12 @@ const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     return (
         <div>
-            <nav className="mx-auto shadow-sm rounded-2xl">
+            <motion.nav
+                initial={{ y: -100 }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="mx-auto shadow-sm rounded-2xl"
+            >
                 <header className="flex py-2 items-center justify-between px-6 max-w-6xl mx-auto">
                     <div className="flex items-center gap-4 justify-between w-full md:w-auto">
                         <div className="font-bold text-2xl"><Link href={`/`}>Turf<span className="text-green-500">HQ</span></Link></div>
@@ -147,11 +153,11 @@ const Navbar = () => {
                             <li>
                                 <NavLink href="/login" className="block py-2">Login</NavLink>
                             </li>
-                        <ThemeSwitch></ThemeSwitch>
+                            <ThemeSwitch></ThemeSwitch>
                         </ul>
                     </div>
                 )}
-            </nav>
+            </motion.nav>
         </div>
     );
 };
