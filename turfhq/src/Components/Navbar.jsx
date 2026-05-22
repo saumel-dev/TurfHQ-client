@@ -20,10 +20,8 @@ const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     return (
         <div>
-            <motion.nav
-                initial={{ y: -100 }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.5 }}
+            <nav
+              
                 className="mx-auto shadow-sm rounded-2xl"
             >
                 <header className="flex py-2 items-center justify-between px-6 max-w-6xl mx-auto">
@@ -157,7 +155,7 @@ const Navbar = () => {
                         </ul>
                     </div>
                 )}
-            </motion.nav>
+            </nav>
         </div>
     );
 };
