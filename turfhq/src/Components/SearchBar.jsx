@@ -37,37 +37,41 @@ const SearchBar = () => {
     };
 
     return (
-        <div className="relative flex items-center bg-white border border-slate-200 rounded-2xl shadow-sm focus-within:ring-4 focus-within:ring-blue-600/10 focus-within:border-green-500 transition-all overflow-hidden max-w-5xl mx-auto my-5">
+        <div className="w-full max-w-4xl mx-auto my-5 flex flex-col md:flex-row gap-4 md:gap-0 md:bg-white md:border md:border-slate-200 md:rounded-2xl md:shadow-sm md:focus-within:ring-4 md:focus-within:ring-blue-600/10 md:focus-within:border-green-500 transition-all md:overflow-hidden items-center">
 
-            <div className="pl-5 text-slate-400">
-                <BiSearch></BiSearch>
+            <div className="flex flex-1 items-center w-full bg-white border border-slate-200 md:border-none rounded-2xl md:rounded-none shadow-sm md:shadow-none overflow-hidden">
+                <div className="pl-5 text-slate-400">
+                    <BiSearch></BiSearch>
+                </div>
+
+                <input
+                    type="text"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Search for facilities"
+                    className="flex-1 h-14 px-4 outline-none bg-transparent text-slate-700 placeholder:text-slate-400"
+                />
+
+                <button onClick={handleSearch}
+                    className="h-10 px-6 mr-2 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700 transition-colors"
+                >
+                    Search
+                </button>
             </div>
-
-            <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search for facilities"
-                className="flex-1 h-14 px-4 outline-none bg-transparent text-slate-700 placeholder:text-slate-400"
-            />
-
-            <button onClick={handleSearch}
-                className="h-10 px-6 mr-2 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700 transition-colors"
-            >
-                Search
-            </button>
-            <select onChange={handleTypeChange} className="border h-10 px-6 mr-2 rounded-xl border-green-500 bg-white font-semibold">
-                <option disabled hidden value="">Filter by Facility Type</option>
-                <option value="Football">Football</option>
-                <option value="Cricket">Cricket</option>
-                <option value="Tennis">Tennis</option>
-                <option value="Basketball">Basketball</option>
-                <option value="Swimming">Swimming</option>
-                <option value="Badminton">Badminton</option>
-                <option value="8 Ball Pool">8 Ball Pool</option>
-                <option value="Calisthenics">Calisthenics</option>
-                <option value="Volleyball">Volleyball</option>
-            </select>
+            <div>
+                <select onChange={handleTypeChange} className="border h-10 px-6 mr-2 rounded-xl border-green-500 bg-white dark:bg-zinc-700 font-semibold">
+                    <option disabled hidden value="">Filter by Facility Type</option>
+                    <option value="Football">Football</option>
+                    <option value="Cricket">Cricket</option>
+                    <option value="Tennis">Tennis</option>
+                    <option value="Basketball">Basketball</option>
+                    <option value="Swimming">Swimming</option>
+                    <option value="Badminton">Badminton</option>
+                    <option value="8 Ball Pool">8 Ball Pool</option>
+                    <option value="Calisthenics">Calisthenics</option>
+                    <option value="Volleyball">Volleyball</option>
+                </select>
+            </div>
         </div>
     );
 };

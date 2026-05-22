@@ -1,10 +1,10 @@
 'use client'
-import { Button, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
+import { Button, Description, FieldError, Form, Input, Label, TextField, toast } from "@heroui/react";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { redirect } from "next/navigation";
 import { authClient } from "../lib/auth-client";
-
+const noop = () => { };
 const LoginPage = () => {
 
     const onSubmit = async (e) => {
@@ -17,7 +17,14 @@ const LoginPage = () => {
         })
 
         if (data) {
-            alert(`Login Successfull`);
+            toast.success("Login Successful", {
+                actionProps: {
+                    children: "",
+                    className: "bg-success text-success-foreground",
+                    onPress: noop,
+                },
+                description: "",
+            })
             redirect('/');
         }
         if (error) {
@@ -28,7 +35,7 @@ const LoginPage = () => {
     return (
         <div className="container mx-auto">
             <div className="flex justify-center items-center min-h-screen">
-                <Form className="flex w-96 flex-col gap-4 dark:bg-zinc-800 dark:border-zinc-700 p-10 rounded-2xl" onSubmit={onSubmit}>
+                <Form className="flex w-96 flex-col gap-4 dark:bg-zinc-800 dark:border-zinc-700 p-10 rounded-2xl bg-gray-200" onSubmit={onSubmit}>
 
                     <TextField
                         isRequired
@@ -78,7 +85,7 @@ const LoginPage = () => {
                         </Button>
                     </div>
                     <p className="text-center text-sm">or</p>
-                    <Button className="w-full bg-white" variant="tertiary">
+                    <Button className="w-full dark:bg-zinc-700 bg-white" variant="tertiary">
                         <FcGoogle></FcGoogle>
                         Login in with Google
                     </Button>

@@ -5,7 +5,7 @@ import { GoPerson } from 'react-icons/go';
 import { MdTimelapse } from 'react-icons/md';
 
 const FeaturedCard = async () => {
-    const res = await fetch('http://localhost:5000/facilities');
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/facilities`);
     const facilities = await res.json();
     return (
         <>
@@ -14,7 +14,7 @@ const FeaturedCard = async () => {
             </div>
             <div className='max-w-7xl mt-5 mx-auto flex flex-wrap gap-5 justify-center items-center'>
                 {
-                    facilities.slice(4, 10).map(facility => <div key={facility._id} className='card w-96 transition-all duration-300 ease-out hover:shadow-[0_0_20px_rgba(34,197,94,0.6)] active:scale-95'>
+                    facilities.slice(4, 10).map(facility => <div key={facility._id} className='card w-96 transition-all duration-300 ease-out hover:shadow-[0_0_20px_rgba(34,197,94,0.6)] active:scale-95 dark:bg-zinc-800'>
                         <Image
                             src={facility.image}
                             alt={facility.name}
@@ -23,7 +23,7 @@ const FeaturedCard = async () => {
                             className='w-full h-48 object-cover rounded-2xl'
                         >
                         </Image>
-                        <p className='text-black font-semibold'>{facility.name}</p>
+                        <p className='font-semibold'>{facility.name}</p>
                         <div className='text-sm space-y-2'>
                             <div className='flex items-center gap-2'>
                                 <CiLocationOn className='mb-0.5 text-green-500'></CiLocationOn>

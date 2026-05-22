@@ -2,9 +2,9 @@
 import { authClient } from "@/app/lib/auth-client";
 import Image from "next/image";
 import Link from "next/link";
-import { AlertDialog, Button } from "@heroui/react";
+import { AlertDialog, Button, toast } from "@heroui/react";
 import { useEffect, useState } from "react";
-
+const noop = () => { };
 const MyBookingsPage = () => {
     const { data: session } = authClient.useSession();
     const user = session?.user;
@@ -12,14 +12,21 @@ const MyBookingsPage = () => {
     const [loading, setLoading] = useState(true);
     const handleCancel = async (bookingId) => {
         const { data: tokenData } = await authClient.token();
-        const res = await fetch(`http://localhost:5000/bookings/${bookingId}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/bookings/${bookingId}`, {
             method: 'DELETE',
             headers: {
                 "authorization": `Bearer ${tokenData?.token}`
             }
         });
         if (res.ok) {
-            alert("Deleted Successfully");
+            toast.success("Deleted Successfully", {
+                actionProps: {
+                    children: "",
+                    className: "bg-success text-success-foreground",
+                    onPress: noop,
+                },
+                description: "",
+            })
             setBookings(prev => prev.filter(booking => booking._id !== bookingId));
         }
     };
@@ -30,7 +37,7 @@ const MyBookingsPage = () => {
         const fetchBookings = async () => {
             try {
                 const { data: tokenData } = await authClient.token();
-                const res = await fetch(`http://localhost:5000/bookings?email=${user.email}`, {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/bookings?email=${user.email}`, {
                     headers: {
                         "authorization": `Bearer ${tokenData?.token}`
                     }
@@ -50,91 +57,88 @@ const MyBookingsPage = () => {
     if (loading) return <p className="text-center py-10 font-medium">Loading...</p>;
 
     return (
-        <div className="w-full max-w-4xl mx-auto px-5 py-10">
-            <h1 className="text-2xl text-center font-bold text-gray-800 mb-6">My Bookings</h1>
-            {
-                bookings.length === 0 ? <div className="flex flex-col justify-center items-center card mt-20">
-                    <h2 className="text-xl font-bold text-gray-800 mb-1">No bookings yet</h2>
-                    <p className="text-sm text-gray-400 mb-6">Start by exploring our facilities</p>
-                    <Link
-                        href="/all-facilities"
-                        className="bg-green-500 hover:bg-green-700 text-white font-medium px-3 py-1 rounded-xl transition shadow-sm inline-block"
-                    >
-                        Browse Facilities
-                    </Link>
-                </div> : <div className="flex flex-col gap-4">
-                    {bookings.map((booking) => (
-                        <div
-                            key={booking._id}
-                            className="w-full border rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition shadow-sm hover:shadow-md"
+        <div className="mx-5">
+            <div className="w-full max-w-4xl mx-auto px-5 py-10 dark:bg-zinc-800 rounded-2xl my-20">
+                <h1 className="text-2xl text-center font-bold mb-6">My Bookings</h1>
+                {
+                    bookings.length === 0 ? <div className="flex flex-col justify-center items-center card mt-20">
+                        <h2 className="text-xl font-bold mb-1">No bookings yet</h2>
+                        <p className="text-sm text-gray-400 mb-6">Start by exploring our facilities</p>
+                        <Link
+                            href="/all-facilities"
+                            className="bg-green-500 hover:bg-green-700 text-white font-medium px-3 py-1 rounded-xl transition shadow-sm inline-block"
                         >
-                            <div className="flex items-center gap-4 w-full sm:w-auto">
-                                <div className="relative w-24 h-20 rounded-xl">
-                                    <Image
-                                        src={booking.image}
-                                        alt={booking.facility_type}
-                                        fill
-                                        className="object-cover rounded-2xl"
-                                    />
-                                </div>
-
-                                <div className="space-y-1">
-                                    <h3 className="font-bold text-lg capitalize">
-                                        {booking.facility_type}
-                                    </h3>
-                                    <div className="text-sm text-gray-600 space-y-0.5">
-                                        <p><span className="font-semibold uppercase  text-[11px]">Date:</span> {booking.booking_date}</p>
-                                        <p><span className="font-semibold uppercase text-[11px]">Slot:</span> {booking.time_slot}</p>
+                            Browse Facilities
+                        </Link>
+                    </div> : <div className="flex flex-col gap-4">
+                        {bookings.map((booking) => (
+                            <div
+                                key={booking._id}
+                                className="w-full border rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition shadow-sm hover:shadow-md dark:bg-zinc-700"
+                            >
+                                <div className="flex items-center gap-4 w-full sm:w-auto">
+                                    <div className="relative w-24 h-20 rounded-xl">
+                                        <Image
+                                            src={booking.image}
+                                            alt={booking.facility_type}
+                                            fill
+                                            className="object-cover rounded-2xl"
+                                        />
                                     </div>
-                                    <p className="text-sm font-bold text-green-500">
-                                        {booking.total_price} BDT
-                                    </p>
+
+                                    <div className="space-y-1">
+                                        <h3 className="font-bold text-lg capitalize">
+                                            {booking.facility_type}
+                                        </h3>
+                                        <div className="text-sm space-y-0.5">
+                                            <p><span className="font-semibold uppercase  text-[11px]">Date:</span> {booking.booking_date}</p>
+                                            <p><span className="font-semibold uppercase text-[11px]">Slot:</span> {booking.time_slot}</p>
+                                        </div>
+                                        <p className="text-sm font-bold text-green-500">
+                                            {booking.total_price} BDT
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center w-full sm:w-auto gap-3 pt-3 sm:pt-0 border-t sm:border-t-0 border-sky-200/50">
+                                    <span className="uppercase text-[11px] font-semibold bg-yellow-200 px-2 py-1 rounded-full dark:text-black">
+                                        {booking.status}
+                                    </span>
+                                    <AlertDialog>
+                                        <Button variant="danger">Delete</Button>
+                                        <AlertDialog.Backdrop>
+                                            <AlertDialog.Container>
+                                                <AlertDialog.Dialog className="sm:max-w-[400px]">
+                                                    <AlertDialog.CloseTrigger />
+                                                    <AlertDialog.Header>
+                                                        <AlertDialog.Icon status="danger" />
+                                                        <AlertDialog.Heading>Delete this booking permanently?</AlertDialog.Heading>
+                                                    </AlertDialog.Header>
+                                                    <AlertDialog.Body>
+                                                        <p>
+                                                            This will permanently delete this booking and all of its
+                                                            data. This action cannot be undone.
+                                                        </p>
+                                                    </AlertDialog.Body>
+                                                    <AlertDialog.Footer>
+                                                        <Button slot="close" variant="tertiary">
+                                                            Cancel
+                                                        </Button>
+                                                        <Button onClick={() => handleCancel(booking._id)} slot="close" variant="danger">
+                                                            Delete
+                                                        </Button>
+                                                    </AlertDialog.Footer>
+                                                </AlertDialog.Dialog>
+                                            </AlertDialog.Container>
+                                        </AlertDialog.Backdrop>
+                                    </AlertDialog>
                                 </div>
                             </div>
+                        ))}
+                    </div>
+                }
 
-                            <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center w-full sm:w-auto gap-3 pt-3 sm:pt-0 border-t sm:border-t-0 border-sky-200/50">
-                                <span className="uppercase text-[11px] font-semibold bg-yellow-200 px-2 py-1 rounded-full">
-                                    {booking.status}
-                                </span>
-                                <AlertDialog>
-                                    <Button variant="danger">Delete</Button>
-                                    <AlertDialog.Backdrop>
-                                        <AlertDialog.Container>
-                                            <AlertDialog.Dialog className="sm:max-w-[400px]">
-                                                <AlertDialog.CloseTrigger />
-                                                <AlertDialog.Header>
-                                                    <AlertDialog.Icon status="danger" />
-                                                    <AlertDialog.Heading>Delete this booking permanently?</AlertDialog.Heading>
-                                                </AlertDialog.Header>
-                                                <AlertDialog.Body>
-                                                    <p>
-                                                        This will permanently delete this booking and all of its
-                                                        data. This action cannot be undone.
-                                                    </p>
-                                                </AlertDialog.Body>
-                                                <AlertDialog.Footer>
-                                                    <Button slot="close" variant="tertiary">
-                                                        Cancel
-                                                    </Button>
-                                                    <Button onClick={() => handleCancel(booking._id)} slot="close" variant="danger">
-                                                        Delete
-                                                    </Button>
-                                                </AlertDialog.Footer>
-                                            </AlertDialog.Dialog>
-                                        </AlertDialog.Container>
-                                    </AlertDialog.Backdrop>
-                                </AlertDialog>
-                                {/* <button
-                                    
-                                    className="text-sm font-semibold text-red-600 bg-red-100 px-2 rounded-full cursor-pointer"
-                                > Cancel
-                                </button> */}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            }
-
+            </div>
         </div>
     );
 };

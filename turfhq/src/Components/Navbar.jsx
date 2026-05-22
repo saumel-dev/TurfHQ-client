@@ -5,6 +5,8 @@ import { authClient } from "@/app/lib/auth-client";
 import { Avatar, Dropdown, Label } from "@heroui/react";
 import { MdOutlineLogout } from "react-icons/md";
 import { useRouter } from 'next/navigation';
+import { ThemeSwitch } from "./ThemeSwitch";
+import Link from "next/link";
 const Navbar = () => {
     const router = useRouter();
     const { data: session } = authClient.useSession();
@@ -20,7 +22,7 @@ const Navbar = () => {
             <nav className="mx-auto shadow-sm rounded-2xl">
                 <header className="flex py-2 items-center justify-between px-6 max-w-6xl mx-auto">
                     <div className="flex items-center gap-4 justify-between w-full md:w-auto">
-                        <div className="font-bold text-2xl">Turf<span className="text-green-500">HQ</span></div>
+                        <div className="font-bold text-2xl"><Link href={`/`}>Turf<span className="text-green-500">HQ</span></Link></div>
                         <button
                             className={`${user ? "hidden" : "block"} md:hidden`}
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -73,7 +75,7 @@ const Navbar = () => {
                         }
                     </ul>
                     {
-                        user ? <div><Dropdown>
+                        user ? <div className="flex gap-5"><Dropdown>
                             <Dropdown.Trigger className="rounded-full">
                                 <Avatar>
                                     <Avatar.Image
@@ -123,14 +125,19 @@ const Navbar = () => {
                                     </Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown.Popover>
-                        </Dropdown></div> : <div className="hidden md:block text-sm">
-                            <NavLink href={"/login"}>Login</NavLink>
+                        </Dropdown>
+                            <ThemeSwitch></ThemeSwitch>
+                        </div> : <div className="hidden md:block text-sm">
+                            <div className="flex gap-5">
+                                <NavLink href={"/login"}>Login</NavLink>
+                                <ThemeSwitch></ThemeSwitch>
+                            </div>
                         </div>
                     }
                 </header>
                 {isMenuOpen && !user && (
                     <div className="border-t border-separator md:hidden">
-                        <ul className="flex flex-col gap-2 p-4">
+                        <ul className="flex flex-col gap-2 p-4 justify-center items-center">
                             <li>
                                 <NavLink href="/" className="block py-2">Home</NavLink>
                             </li>
@@ -140,6 +147,7 @@ const Navbar = () => {
                             <li>
                                 <NavLink href="/login" className="block py-2">Login</NavLink>
                             </li>
+                        <ThemeSwitch></ThemeSwitch>
                         </ul>
                     </div>
                 )}

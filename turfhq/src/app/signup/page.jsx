@@ -30,7 +30,7 @@ const SignUpPage = () => {
     return (
         <div className="container mx-auto">
             <div className="flex justify-center items-center min-h-screen">
-                <Form className="flex w-96 flex-col gap-4 bg-slate-200 p-10 rounded-2xl" onSubmit={onSubmit}>
+                <Form className="flex w-96 flex-col gap-4 dark:bg-zinc-800 p-10 rounded-2xl bg-gray-200" onSubmit={onSubmit}>
 
                     <TextField isRequired name="name" type="text">
                         <Label>Name</Label>
@@ -92,7 +92,7 @@ const SignUpPage = () => {
                         </Button>
                     </div>
                     <p className="text-center text-sm">or</p>
-                    <Button className="w-full bg-white" variant="tertiary">
+                    <Button className="w-full dark:bg-zinc-700 bg-white" variant="tertiary">
                         <FcGoogle></FcGoogle>
                         Sign in with Google
                     </Button>

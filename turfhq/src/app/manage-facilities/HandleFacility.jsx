@@ -2,9 +2,9 @@
 import Image from "next/image";
 import { authClient } from "../lib/auth-client";
 import { useState } from "react";
-import { AlertDialog, Button, Input, Label, Modal, TextField } from "@heroui/react";
+import { AlertDialog, Button, Input, Label, Modal, TextField, toast } from "@heroui/react";
 import { redirect, useRouter } from "next/navigation";
-
+const noop = () => { };
 const HandleFacility = ({ facilities: initialFacilities }) => {
     const router = useRouter();
     const [facilities, setFacilities] = useState(initialFacilities);
@@ -25,7 +25,7 @@ const HandleFacility = ({ facilities: initialFacilities }) => {
 
     const handleDelete = async (facilityId) => {
         const { data: tokenData } = await authClient.token();
-        const res = await fetch(`http://localhost:5000/facilities/${facilityId}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/facilities/${facilityId}`, {
             method: 'DELETE',
             headers: {
                 authorization: `Bearer ${tokenData?.token}`
@@ -33,8 +33,16 @@ const HandleFacility = ({ facilities: initialFacilities }) => {
         });
 
         if (res.ok) {
-            alert("Deleted Successfully");
+            toast.success("Facility Deleted Successfully", {
+                actionProps: {
+                    children: "",
+                    className: "bg-success text-success-foreground",
+                    onPress: noop,
+                },
+                description: "",
+            })
             setFacilities(prev => prev.filter(item => item._id !== facilityId));
+            router.refresh('/manage-facilities');
         }
     };
 
@@ -54,7 +62,7 @@ const HandleFacility = ({ facilities: initialFacilities }) => {
 
         const { data: tokenData } = await authClient.token();
 
-        const res = await fetch(`http://localhost:5000/facilities/${selectedFacility._id}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/facilities/${selectedFacility._id}`, {
             method: "PATCH",
             headers: {
                 "content-type": "application/json",
@@ -65,19 +73,20 @@ const HandleFacility = ({ facilities: initialFacilities }) => {
 
         if (res.ok) {
             alert("Facility updated successfully");
-            router.push('/manage-facilities');
+            router.refresh('/manage-facilities');
         } else {
             alert("Something went wrong");
         }
     };
 
     return (
-        <div className="w-full max-w-4xl mx-auto px-5 py-10">
+        <div className="w-full max-w-4xl mx-auto px-5 py-10 flex-1 dark:bg-zinc-800 rounded-2xl mt-20">
             <div className="flex flex-col gap-4">
+                <h1 className="text-2xl font-bold text-center">Manage Facility</h1>
                 {facilities.map((facility) => (
                     <div
                         key={facility._id}
-                        className="w-full border rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition shadow-sm hover:shadow-md"
+                        className="w-full dark:bg-zinc-700 border rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition shadow-sm hover:shadow-md"
                     >
                         <div className="flex items-center gap-4 w-full sm:w-auto">
                             <div className="relative w-24 h-20 rounded-xl">
@@ -90,7 +99,7 @@ const HandleFacility = ({ facilities: initialFacilities }) => {
                             </div>
                             <div className="space-y-1">
                                 <h3 className="font-bold text-lg capitalize">{facility.name}</h3>
-                                <div className="text-sm text-gray-600 space-y-0.5">
+                                <div className="text-sm space-y-0.5">
                                     <p><span className="font-semibold uppercase text-[11px]">Type:</span> {facility.facility_type}</p>
                                     <p><span className="font-semibold uppercase text-[11px]">Location:</span> {facility.location}</p>
                                 </div>
@@ -99,7 +108,7 @@ const HandleFacility = ({ facilities: initialFacilities }) => {
 
                         <div className="flex sm:flex-col items-center sm:items-end gap-3 pt-3 sm:pt-0 border-t sm:border-t-0 border-sky-200/50 w-full sm:w-auto">
                             <Modal>
-                                <Button variant="secondary" onPress={() => openEdit(facility)}>
+                                <Button variant="primary" onPress={() => openEdit(facility)}>
                                     Edit
                                 </Button>
                                 <Modal.Backdrop>
@@ -113,16 +122,16 @@ const HandleFacility = ({ facilities: initialFacilities }) => {
                                                 <form id="edit-form" onSubmit={handleSave} className="flex flex-col gap-4">
 
                                                     <TextField className="w-full" name="name" variant="secondary">
-                                                        <Label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Facility Name</Label>
-                                                        <Input defaultValue={selectedFacility?.name} placeholder="e.g. Green Turf Football Ground" />
+                                                        <Label className="text-[11px] font-bold uppercase tracking-wider">Facility Name</Label>
+                                                        <Input className={`dark:bg-white dark:text-black`} defaultValue={selectedFacility?.name} placeholder="e.g. Green Turf Football Ground" />
                                                     </TextField>
 
                                                     <div className="flex flex-col gap-1.5">
-                                                        <Label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Sport Type</Label>
+                                                        <Label className="text-[11px] font-bold uppercase tracking-wider">Sport Type</Label>
                                                         <select
                                                             name="facility_type"
                                                             defaultValue={selectedFacility?.facility_type}
-                                                            className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-600"
+                                                            className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm dark:bg-white dark:text-black"
                                                         >
                                                             <option value="Football">Football</option>
                                                             <option value="Cricket">Cricket</option>
@@ -138,34 +147,34 @@ const HandleFacility = ({ facilities: initialFacilities }) => {
 
                                                     <TextField className="w-full" name="image" variant="secondary">
                                                         <Label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Image URL</Label>
-                                                        <Input defaultValue={selectedFacility?.image} placeholder="https://example.com/image.jpg" />
+                                                        <Input className={"dark:bg-white dark:text-black"} defaultValue={selectedFacility?.image} placeholder="https://example.com/image.jpg" />
                                                     </TextField>
 
                                                     <TextField className="w-full" name="location" variant="secondary">
-                                                        <Label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Location</Label>
-                                                        <Input defaultValue={selectedFacility?.location} placeholder="e.g. Gulshan, Dhaka" />
+                                                        <Label className="text-[11px] font-bold uppercase tracking-wider">Location</Label>
+                                                        <Input className={"dark:bg-white dark:text-black"} defaultValue={selectedFacility?.location} placeholder="e.g. Gulshan, Dhaka" />
                                                     </TextField>
 
                                                     <div className="grid grid-cols-2 gap-4">
                                                         <TextField name="price_per_hour" type="number" variant="secondary">
-                                                            <Label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Price/hr</Label>
-                                                            <Input defaultValue={selectedFacility?.price_per_hour} placeholder="1000" />
+                                                            <Label className="text-[11px] font-bold uppercase tracking-wider">Price/hr</Label>
+                                                            <Input className={"dark:bg-white dark:text-black"} defaultValue={selectedFacility?.price_per_hour} placeholder="1000" />
                                                         </TextField>
                                                         <TextField name="capacity" type="number" variant="secondary">
-                                                            <Label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Capacity</Label>
-                                                            <Input defaultValue={selectedFacility?.capacity} placeholder="10" />
+                                                            <Label className="text-[11px] font-bold uppercase tracking-wider">Capacity</Label>
+                                                            <Input className={"dark:bg-white dark:text-black"} defaultValue={selectedFacility?.capacity} placeholder="10" />
                                                         </TextField>
                                                     </div>
 
                                                     <div className="flex flex-col gap-1.5">
-                                                        <Label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Available Slots</Label>
+                                                        <Label className="text-[11px] font-bold uppercase tracking-wider">Available Slots</Label>
                                                         <div className="flex gap-2">
                                                             <input
                                                                 type="text"
                                                                 value={slotInput}
                                                                 onChange={(e) => setSlotInput(e.target.value)}
                                                                 placeholder="e.g. 09:00 AM - 10:00 AM"
-                                                                className="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-green-500"
+                                                                className="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-green-500 dark:bg-white dark:text-black"
                                                             />
                                                             <button
                                                                 type="button"
@@ -183,13 +192,13 @@ const HandleFacility = ({ facilities: initialFacilities }) => {
                                                     </div>
 
                                                     <div className="flex flex-col gap-1.5">
-                                                        <Label className="text-[11px] font-bold text-gray-500">Description</Label>
+                                                        <Label className=" font-bold">Description</Label>
                                                         <textarea
                                                             name="description"
                                                             defaultValue={selectedFacility?.description}
                                                             placeholder="Describe your facility..."
                                                             rows={3}
-                                                            className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm"
+                                                            className="w-full px-4 py-3 rounded-xl border dark:bg-white dark:text-black border-gray-200 text-sm"
                                                         />
                                                     </div>
                                                 </form>

@@ -10,7 +10,7 @@ const AllFacilitiesPage = async (props) => {
     const searchParams = await props.searchParams;
     const searchTerm = searchParams?.searchTerm || "";
     const type = searchParams?.type || "";
-    const res = await fetch(`http://localhost:5000/facilities?searchTerm=${searchTerm}&type=${type}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/facilities?searchTerm=${searchTerm}&type=${type}`, {
         cache: "no-store"
     });
     const facilities = await res.json();
@@ -21,9 +21,9 @@ const AllFacilitiesPage = async (props) => {
                 <h1 className='text-3xl font-bold'>All Facilities</h1>
                 <p className='text-gray-400 mt-2'>Explore All Facilities of TurfHQ</p>
                 <SearchBar></SearchBar>
-                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 justify-items-center'>
+                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 justify-items-center '>
                     {
-                        facilities.map(facility => <div key={facility._id} className='card w-96 transition-all duration-300 ease-out hover:shadow-[0_0_20px_rgba(34,197,94,0.6)] active:scale-95'>
+                        facilities.map(facility => <div key={facility._id} className='card w-96 transition-all duration-300 ease-out hover:shadow-[0_0_20px_rgba(34,197,94,0.6)] active:scale-95 dark:bg-zinc-800'>
                             <Image
                                 src={facility.image}
                                 alt={facility.name}
@@ -32,7 +32,7 @@ const AllFacilitiesPage = async (props) => {
                                 className='w-full h-48 object-cover rounded-2xl'
                             >
                             </Image>
-                            <p className='text-black font-semibold'>{facility.name}</p>
+                            <p className='font-semibold'>{facility.name}</p>
                             <div className='text-sm space-y-2'>
                                 <div className='flex items-center gap-2'>
                                     <CiLocationOn className='mb-0.5 text-green-500'></CiLocationOn>

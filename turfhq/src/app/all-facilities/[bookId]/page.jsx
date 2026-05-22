@@ -6,19 +6,19 @@ import { CiLocationOn } from 'react-icons/ci';
 import { GoArrowLeft } from 'react-icons/go';
 const BookFacilitiesPage = async ({ params }) => {
     const { bookId } = await params;
-    const res = await fetch(`http://localhost:5000/facilities/${bookId}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/facilities/${bookId}`);
     const facility = await res.json();
     const { _id, name, facility_type, image, location, description, price_per_hour, capacity, booking_count, owner_email, available_slots } = facility;
-    console.log(image);
+    // console.log(image);
     return (
         <>
             <div className='w-full max-w-7xl mx-auto px-5'>
                 <div className='mt-10 flex gap-1 items-center'>
-                    <GoArrowLeft className='text-gray-400'></GoArrowLeft>
-                    <Link href={`/all-facilities`} className='text-gray-400'>Back to Facilities</Link>
+                    <GoArrowLeft className='text-gray-400  '></GoArrowLeft>
+                    <Link href={`/all-facilities`} className='text-gray-400 dark:text-white'>Back to Facilities</Link>
                 </div>
                 <div className='grid grid-cols-1 md:grid-cols-2 justify-items-center gap-5'>
-                    <div className='w-full flex flex-col justify-center items-center gap-2'>
+                    <div className='w-full flex flex-col justify-center items-center gap-2 card dark:bg-zinc-900'>
                         <Image
                             alt={facility.name}
                             src={facility.image}
@@ -29,7 +29,7 @@ const BookFacilitiesPage = async ({ params }) => {
                         </Image>
                         <h1 className='text-xl font-bold'>{name}</h1>
                         <div className='w-full flex flex-wrap justify-center items-center gap-3'>
-                            <div className='card rounded-xl w-50 gap-1'>
+                            <div className='card rounded-xl w-50 gap-1 dark:bg-zinc-800'>
                                 <div>
                                     <div className='flex items-center gap-1 text-gray-500'>
                                         <CiLocationOn className='text-[11px]'></CiLocationOn>
@@ -38,7 +38,7 @@ const BookFacilitiesPage = async ({ params }) => {
                                 </div>
                                 <p className='text-sm'>{location}</p>
                             </div>
-                            <div className='card rounded-xl w-50 gap-1'>
+                            <div className='card rounded-xl w-50 gap-1 dark:bg-zinc-800'>
                                 <div>
                                     <div className='flex items-center gap-1 text-gray-500'>
                                         <CiLocationOn className='text-[11px]'></CiLocationOn>
@@ -47,7 +47,7 @@ const BookFacilitiesPage = async ({ params }) => {
                                 </div>
                                 <p className='text-sm'>Up to {capacity} players</p>
                             </div>
-                            <div className='card rounded-xl w-50 gap-1'>
+                            <div className='card rounded-xl w-50 gap-1 dark:bg-zinc-800'>
                                 <div>
                                     <div className='flex items-center gap-1 text-gray-500'>
                                         <CiLocationOn className='text-[11px]'></CiLocationOn>
@@ -56,7 +56,7 @@ const BookFacilitiesPage = async ({ params }) => {
                                 </div>
                                 <p className='text-sm'>{price_per_hour} bdt/hour</p>
                             </div>
-                            <div className='card rounded-xl w-50 gap-1'>
+                            <div className='card rounded-xl w-50 gap-1 dark:bg-zinc-800'>
                                 <div>
                                     <div className='flex items-center gap-1 text-gray-500'>
                                         <CiLocationOn className='text-[11px]'></CiLocationOn>

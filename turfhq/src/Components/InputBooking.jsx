@@ -1,8 +1,9 @@
 'use client'
 import { authClient } from "@/app/lib/auth-client";
-import { Button, DateField, Form, Input, Label, TextField } from "@heroui/react";
+import { Button, DateField, Form, Input, Label, TextField, toast } from "@heroui/react";
 import { redirect } from "next/navigation";
 import { useState } from "react";
+const noop = () => { };
 const InputBooking = ({ facility }) => {
     const { _id, name, facility_type, image, location, description, price_per_hour, capacity, booking_count, available_slots } = facility;
 
@@ -33,7 +34,7 @@ const InputBooking = ({ facility }) => {
             image: image
         };
 
-        const res = await fetch(`http://localhost:5000/bookings`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/bookings`, {
             method: "POST",
             headers: {
                 "content-type": "application/json",
@@ -42,11 +43,18 @@ const InputBooking = ({ facility }) => {
             body: JSON.stringify(data)
         })
         if (res.ok) {
-            alert(`Booking Confirmed`);
+            toast.success("Booking Successful", {
+                actionProps: {
+                    children: "",
+                    className: "bg-success text-success-foreground",
+                    onPress: noop,
+                },
+                description: "",
+            })
             redirect('/my-bookings')
         }
         else {
-            alert(`something is wrong`);
+            alert('Something is wrong, try again later')
         }
     }
     const handleReset = () => {
@@ -55,9 +63,9 @@ const InputBooking = ({ facility }) => {
         setBookingDate(null);
     };
     return (
-        <div className='card w-100 h-148'>
+        <div className='card w-110 px-10 h-160 py-5 dark:bg-zinc-900'>
             <div>
-                <h1 className="text-black/70 text-md font-bold">Book This Facility</h1>
+                <h1 className="text-md font-bold">Book This Facility</h1>
                 <p className="text-sm text-gray-400">Fill your details to book this spot</p>
             </div>
             <div>
@@ -66,20 +74,20 @@ const InputBooking = ({ facility }) => {
                         name="name"
                         type="text"
                     >
-                        <Label className="text-[12px] font-semibold text-gray-500 uppercase">Facility</Label>
+                        <Label className="text-[12px] font-semibold text-gray-500 dark:text-white uppercase">Facility</Label>
                         <Input value={name} readOnly className={`bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-600`} />
                     </TextField>
                     <DateField onChange={setBookingDate} className="w-full" name="date" value={bookingDate}>
-                        <Label className="text-[12px] font-semibold text-gray-500 uppercase">Date</Label>
+                        <Label className="text-[12px] font-semibold text-gray-500 dark:text-white uppercase">Date</Label>
                         <DateField.Group>
-                            <DateField.Input>
+                            <DateField.Input className="dark:bg-white dark:text-black">
                                 {(segment) => <DateField.Segment segment={segment} />}
                             </DateField.Input>
                         </DateField.Group>
                     </DateField>
                     <TextField>
-                        <Label>Select a time slot</Label>
-                        <select id="time-slot" required value={timeSlot} onChange={(e) => setTimeSlot(e.target.value)} className="w-full px-4 py-2 rounded-xl border border-gray-200 text-sm text-gray-600 card">
+                        <Label className="text-gray-500 dark:text-white">Select a time slot</Label>
+                        <select id="time-slot" required value={timeSlot} onChange={(e) => setTimeSlot(e.target.value)} className="w-full px-4 py-2 rounded-xl border border-gray-200 text-sm text-gray-600 card dark:bg-white">
                             <option value="">Select a time slot</option>
                             {
                                 available_slots.map((slot, index) => (
@@ -92,16 +100,16 @@ const InputBooking = ({ facility }) => {
                         name="duration"
                         type="number"
                     >
-                        <Label className="text-[12px] font-semibold text-gray-500 uppercase">Duration (Hours)</Label>
+                        <Label className="text-[12px] font-semibold text-gray-500 dark:text-white uppercase">Duration (Hours)</Label>
                         <Input value={duration} type="number" min={1} max={8} onChange={(e) => setDuration(Number(e.target.value))} placeholder="Minimum 1 hour to Maximum 8 hours" className={`bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-600`} />
                     </TextField>
-                    <div className="card w-full bg-green-200 h-20 rounded-2xl">
+                    <div className="card w-full dark:bg-white h-20 rounded-2xl">
                         <div className="flex justify-between">
                             <div className="space-y-1">
-                                <div className={`text-sm text-gray-500 x`}>{price_per_hour}bdt/hour x {duration}</div>
-                                <p className="font-bold">Total Price</p>
+                                <div className={`text-sm text-gray-500 dark:text-black`}>{price_per_hour}bdt/hour x {duration}</div>
+                                <p className="font-bold dark:text-black">Total Price</p>
                             </div>
-                            <div className="flex justify-center items-center">
+                            <div className="flex justify-center items-center dark:text-black">
                                 {totalPrice} bdt
                             </div>
                         </div>
@@ -111,7 +119,7 @@ const InputBooking = ({ facility }) => {
                         <Button type="submit">
                             Submit
                         </Button>
-                        <Button type="reset" variant="secondary" onClick={handleReset}>
+                        <Button type="reset" variant="outline" onClick={handleReset} className={"dark:bg-white dark:text-black"}>
                             Reset
                         </Button>
                     </div>
