@@ -69,7 +69,7 @@ const AddFacilitiesPage = () => {
                                 <Label className="text-[11px] font-bold uppercase tracking-wider">Facility Name</Label>
                                 <Input
                                     placeholder="e.g. Green Turf Football Ground"
-                                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm dark:bg-white"
+                                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm dark:bg-white dark:text-black"
                                 />
                                 <FieldError className="text-xs text-red-500" />
                             </TextField>
@@ -101,7 +101,7 @@ const AddFacilitiesPage = () => {
                                 <Label className="text-[11px] font-bold uppercase tracking-wider">Image URL</Label>
                                 <Input
                                     placeholder="https://example.com/image.jpg"
-                                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#12a150] bg-white text-sm"
+                                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#12a150] bg-white text-sm dark:text-black"
                                 />
                                 <FieldError className="text-xs text-red-500" />
                             </TextField>
@@ -139,7 +139,7 @@ const AddFacilitiesPage = () => {
                                 <Label className="text-[11px] font-bold uppercase tracking-wider">Available Time Slots</Label>
                                 <Input
                                     placeholder="e.g. 08:00 AM - 09:00 AM"
-                                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#12a150] bg-white text-sm"
+                                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#12a150] bg-white text-sm dark:text-black"
                                 />
                                 <FieldError className="text-xs text-red-500" />
                             </TextField>
