@@ -110,7 +110,7 @@ const AddFacilitiesPage = () => {
                                 <Label className="text-[11px] font-bold uppercase tracking-wider">Location</Label>
                                 <Input
                                     placeholder="e.g. Gulshan, Dhaka"
-                                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm dark:bg-white"
+                                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm dark:bg-white dark:text-black"
                                 />
                                 <FieldError className="text-xs text-red-500" />
                             </TextField>
