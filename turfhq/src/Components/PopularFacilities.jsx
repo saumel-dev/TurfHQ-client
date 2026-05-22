@@ -46,8 +46,8 @@ const PopularFacilities = () => {
                     </div>
                     <div className='card w-40 h-35 bg-white flex flex-col justify-center items-center'>
                         <Image
-                            src={"/assets/Football.png"}
-                            alt='cricket'
+                            src={"/assets/football.png"}
+                            alt='football'
                             width={50}
                             height={50}
                         ></Image>

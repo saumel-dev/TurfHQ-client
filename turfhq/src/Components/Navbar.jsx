@@ -7,7 +7,6 @@ import { MdOutlineLogout } from "react-icons/md";
 import { useRouter } from 'next/navigation';
 import { ThemeSwitch } from "./ThemeSwitch";
 import Link from "next/link";
-import { motion } from "motion/react"
 const Navbar = () => {
     const router = useRouter();
     const { data: session } = authClient.useSession();
