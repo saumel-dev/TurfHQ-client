@@ -1,8 +1,4 @@
 import React from 'react';
-import { CgCalendarDates } from 'react-icons/cg';
-import { FaClockRotateLeft } from 'react-icons/fa6';
-import { GrTrophy } from 'react-icons/gr';
-import { HiMiniCalendar } from 'react-icons/hi2';
 
 const Stats_section = () => {
     return (
