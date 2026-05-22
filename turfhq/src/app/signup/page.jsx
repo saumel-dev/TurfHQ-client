@@ -26,6 +26,12 @@ const SignUpPage = () => {
             alert(error.message);
         }
     }
+    const handleGoogleSignUp = async () => {
+        await authClient.signIn.social({
+            provider: "google",
+            callbackURL: "/",
+        });
+    };
 
     return (
         <div className="container mx-auto">
@@ -92,7 +98,7 @@ const SignUpPage = () => {
                         </Button>
                     </div>
                     <p className="text-center text-sm">or</p>
-                    <Button className="w-full dark:bg-zinc-700 bg-white" variant="tertiary">
+                    <Button onClick={handleGoogleSignUp} className="w-full dark:bg-zinc-700 bg-white" variant="tertiary">
                         <FcGoogle></FcGoogle>
                         Sign in with Google
                     </Button>
