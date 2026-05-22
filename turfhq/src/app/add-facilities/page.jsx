@@ -141,7 +141,7 @@ const AddFacilitiesPage = () => {
                                     placeholder="e.g. 08:00 AM - 09:00 AM"
                                     className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#12a150] bg-white text-sm dark:text-black"
                                 />
-                                <FieldError className="text-xs text-red-500" />
+                                <FieldError className="text-xs text-red-400" />
                             </TextField>
                         </div>
 
